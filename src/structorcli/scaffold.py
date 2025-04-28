@@ -3,6 +3,7 @@ import re
 import shutil
 import sys
 import random
+import time
 from pathlib import Path
 from rich.console import Console
 from rich.prompt import Prompt
@@ -10,9 +11,10 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.tree import Tree
 from rich.columns import Columns
+from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn
 
 # Initialize Rich console
-console = Console()
+console = Console(width=80)
 
 # Path to the templates folder
 TEMPLATE_DIR = Path(__file__).parent / "templates"
@@ -32,6 +34,19 @@ SUCCESS_QUOTES = [
     "📦 All packed and ready. Time to build something amazing!",
     "💥 Creation successful. Innovation unlocked!"
 ]
+
+def chunk_list(lst, n):
+    """Split a list into chunks of size n, padding if needed."""
+    for i in range(0, len(lst), n):
+        chunk = lst[i:i + n]
+        while len(chunk) < n:
+            chunk.append("")
+        yield chunk
+
+def format_option(index, name):
+    """Format a perfectly aligned option."""
+    number = f"{index:>2}."  # Pad single digits
+    return f"[cyan]{number}[/cyan] {name.capitalize()}"
 
 def get_available_templates():
     """Return a list of available templates."""
@@ -60,7 +75,7 @@ def ask_project_choice(template_choices):
 
 def get_project_info():
     """Prompt user for project name and template choice."""
-    console.rule("[bold cyan]🚀 Project Scaffolder[/bold cyan]")
+    console.rule("[bold cyan]⭐  StructorCLI  ⭐[/bold cyan]", align="center")
 
     while True:
         project_name = Prompt.ask("[bold cyan]📂 Enter project name[/bold cyan]").strip()
@@ -76,16 +91,21 @@ def get_project_info():
         console.print("[red]❌ No templates found in templates/ folder.[/red]")
         sys.exit(1)
 
-    console.rule(f"[bold green]📂 Project: {project_name}[/bold green]")
+    console.rule(f"[bold green]📂 Project: {project_name}[/bold green]", align="center")
 
     console.print("\n💻 [bold]Select Project Type:[/bold]\n")
 
-    options = [
-        f"[cyan]{i}.[/cyan] {name.capitalize()}"
-        for i, name in enumerate(template_choices, start=1)
-    ]
+    options = [format_option(i, name) for i, name in enumerate(template_choices, start=1)]
 
-    console.print(Columns(options, equal=True, expand=True))
+    option_rows = list(chunk_list(options, 4))
+
+    for row in option_rows:
+        # Widen the slots to 30 characters each
+        line = ""
+        for cell in row:
+            line += cell.ljust(30)  # 👈 wider breathing room
+        console.print(line.rstrip())
+
     console.rule()
 
     project_type = ask_project_choice(template_choices)
@@ -93,7 +113,7 @@ def get_project_info():
     return project_name, project_type
 
 def scaffold_project(project_name, project_type):
-    """Create project directory and copy template files, with injection."""
+    """Create project directory and copy template files, with injection and progress bar."""
     project_path = Path.cwd() / project_name
 
     try:
@@ -110,14 +130,29 @@ def scaffold_project(project_name, project_type):
 
         created_files = []
 
+        # Gather all files first
+        all_files = []
         for root, _, files in os.walk(template_path):
-            relative_root = Path(root).relative_to(template_path)
-            target_dir = project_path / relative_root
-            target_dir.mkdir(parents=True, exist_ok=True)
-
             for file in files:
                 src_file = Path(root) / file
-                dst_file = target_dir / file
+                all_files.append(src_file)
+
+        with Progress(
+            SpinnerColumn(),
+            BarColumn(),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            TextColumn("[bold blue]{task.description}"),
+            transient=True,
+        ) as progress:
+
+            task = progress.add_task("[green]Scaffolding project...", total=len(all_files))
+
+            for src_file in all_files:
+                relative_root = src_file.parent.relative_to(template_path)
+                target_dir = project_path / relative_root
+                target_dir.mkdir(parents=True, exist_ok=True)
+
+                dst_file = target_dir / src_file.name
                 shutil.copy2(src_file, dst_file)
                 created_files.append(dst_file)
 
@@ -131,10 +166,11 @@ def scaffold_project(project_name, project_type):
                     except Exception as e:
                         console.print(f"[yellow]⚠️ Warning: Could not inject into {dst_file.name}: {e}[/yellow]")
 
+                progress.update(task, advance=1)
+
         return project_path, created_files
 
     except Exception as e:
-        # Auto-clean failed scaffolds
         if project_path.exists():
             shutil.rmtree(project_path, ignore_errors=True)
         raise e

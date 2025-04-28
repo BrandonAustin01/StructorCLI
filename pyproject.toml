@@ -9,7 +9,7 @@ description = "A dynamic, professional-grade CLI project scaffolder."
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-  { name = "Your Name", email = "your.email@example.com" }
+  { name = "Brandon McKinney", email = "brandonmckinney2001@gmail.com" }
 ]
 requires-python = ">=3.8"
 classifiers = [
@@ -33,10 +33,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/structorcli"
-Documentation = "https://github.com/yourusername/structorcli"
-Repository = "https://github.com/yourusername/structorcli"
-Issues = "https://github.com/yourusername/structorcli/issues"
+Homepage = "https://github.com/BrandonAustin01/StructorCLI"
+Documentation = "https://github.com/BrandonAustin01/StructorCLI"
+Repository = "https://github.com/BrandonAustin01/StructorCLI"
+Issues = "https://github.com/BrandonAustin01/StructorCLI/issues"
 
 [project.scripts]
 structor = "structorcli.cli:run"

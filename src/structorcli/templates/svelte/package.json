@@ -1,0 +1,9 @@
+{
+    "name": "{{project_name}}",
+    "version": "1.0.0",
+    "private": true,
+    "devDependencies": {
+      "svelte": "^3.55.0"
+    }
+  }
+  
