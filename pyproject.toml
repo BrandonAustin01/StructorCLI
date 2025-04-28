@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "structorcli"
+version = "0.1.0"
+description = "A dynamic, professional-grade CLI project scaffolder."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+  { name = "Your Name", email = "your.email@example.com" }
+]
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Software Development :: Code Generators",
+  "Topic :: Utilities"
+]
+dependencies = [
+  "rich>=13.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/structorcli"
+Documentation = "https://github.com/yourusername/structorcli"
+Repository = "https://github.com/yourusername/structorcli"
+Issues = "https://github.com/yourusername/structorcli/issues"
+
+[project.scripts]
+structor = "structorcli.cli:run"
