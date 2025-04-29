@@ -1,6 +1,6 @@
 # 🏗️ StructorCLI
 
-**StructorCLI** is a fast, dynamic, and professional-grade CLI tool for scaffolding project structures from reusable templates.
+**StructorCLI** is a blazing-fast, professional-grade CLI tool for scaffolding project structures using intelligent, reusable templates.
 
 > "Build the structure. Focus on creation."
 
@@ -8,83 +8,120 @@
 
 ## 🚀 Features
 
-- 🛠️ Scaffold new projects in seconds
-- 📦 Supports multiple languages and frameworks (Python, Bash, Node, Rust, etc.)
-- 🧠 Intelligent project name handling and injection
-- 📂 Dynamic template loading — no code changes needed to add new templates
-- 🎯 Professional error handling and retry logic
-- ✨ Random success quotes to keep your flow energized
-- 🔥 Clean, lightweight, and extensible for future UI/Cloud expansion
+- 🛠️ Scaffold projects in seconds using interactive or flag-based CLI
+- 📦 Supports 30+ templates (Python, Node, Go, Rust, HTML, FastAPI, React, and more)
+- 🔍 Intelligent name injection using `{{project_name}}`
+- 💡 Dynamic template discovery — just drop in new folders under `templates/`
+- 🔄 Retry-friendly loop with error handling and validation
+- ✨ Motivational success quotes to keep your build vibe alive
+- 🎨 Beautiful `rich` output: tables, trees, panels, progress bars
 
 ---
 
 ## 📥 Installation
 
 ```bash
-# Clone the repository (if local)
-git clone https://github.com/yourusername/structorcli.git
-cd structorcli
+# Clone the repo
+git clone https://github.com/BrandonAustin01/StructorCLI.git
+cd StructorCLI
 
-# Install locally
+# Install in editable (dev) mode
 pip install -e .
 ```
 
+> Requires Python 3.8+
+
 ---
 
-## ⚡ Quick Usage
+## ⚡ Usage
+
+### 🧭 Interactive Mode
 
 ```bash
-# Start a new scaffold
 structor
+```
 
-# Example flow
-# 1. Enter project name
-# 2. Choose template type (e.g., Python, Node, Bash)
-# 3. Done — your project is created instantly!
+You'll be prompted to enter a project name and select a template visually.
 
+---
+
+### 💻 Flag Mode
+
+```bash
+structor --template react --name my-app
+```
+
+| Flag         | Description                                 |
+|--------------|---------------------------------------------|
+| `--template` | Specify template folder name                |
+| `--name`     | Set project name without prompt             |
+| `--help`     | Show help screen                            |
+| `--version`  | Show current StructorCLI version            |
+| `--list`, `-l`, `list` | View all available templates    |
+
+---
+
+## 📁 Template Structure
+
+All templates live inside:
+
+```bash
+src/structorcli/templates/
+```
+
+Each template folder can include any file structure.  
+You can use `{{project_name}}` inside any `.md`, `.py`, `.json`, etc.
+
+Example injection:
+
+```json
+{
+  "name": "{{project_name}}",
+  "version": "1.0.0"
+}
+```
+
+Will become:
+
+```json
+{
+  "name": "my-app",
+  "version": "1.0.0"
+}
 ```
 
 ---
 
-## 📚 How It Works
+## 🛠 Supported Templates (Sample)
 
-- Templates are stored inside /src/structorcli/templates/
-- StructorCLI dynamically detects available templates
-- Files are copied into a new project folder
-- Placeholder tokens like {{project_name}} inside templates are replaced automatically
-- Beautiful Rich-powered CLI output for trees, tables, and prompts
+- ✅ Python / Flask / FastAPI
+- ✅ Node.js / Express
+- ✅ Bash
+- ✅ Go / Go-WebServer
+- ✅ Rust / Rust-CLI
+- ✅ HTML / Astro / Vite / Svelte / Vue / React
+- ✅ Django / PHP / Java / C++ / C# / Kotlin
+- ✅ Discord Bots (Node & Python)
+- ✅ GraphQL / Microservice / NestJS
 
----
-
-## 🛠 Supported Template Types
-
-- Python
-
-- Node.js
-
-- Bash
-
-- C++
-
-- C#
-
-- Rust
-
-- Go
-
-- HTML/Web
-
-- Microservices
-
-- Java
-
-- Swift
-
-- Php
-
-- kotlin
+> Add your own by dropping a folder inside `templates/`
 
 ---
 
-> If you enjoy this project, feel free to ⭐ the repo and contribute!
+## 👨‍💻 Author
 
+Created by [**Brandon Austin**](https://github.com/BrandonAustin01)  
+Built with 🧠, refined with 💎, powered by [Rich](https://github.com/Textualize/rich)
+
+---
+
+## ⭐ Contribute
+
+If you enjoy StructorCLI:
+- Star the repo ⭐
+- Add new templates
+- Open PRs or issues to help polish the experience
+
+Let’s keep scaffolding smart.
+
+---
