@@ -35,7 +35,7 @@ pip install -e .
 
 ## ⚡ Usage
 
-### 🧭 Interactive Mode
+### 🧑‍🔬 Interactive Mode
 
 ```bash
 structor
@@ -51,13 +51,14 @@ You'll be prompted to enter a project name and select a template visually.
 structor --template react --name my-app
 ```
 
-| Flag         | Description                                 |
-|--------------|---------------------------------------------|
-| `--template` | Specify template folder name                |
-| `--name`     | Set project name without prompt             |
-| `--help`     | Show help screen                            |
-| `--version`  | Show current StructorCLI version            |
-| `--list`, `-l`, `list` | View all available templates    |
+| Flag                      | Description                                 |
+|----------------------------|---------------------------------------------|
+| `--template`               | Specify template folder name                |
+| `--name`                   | Set project name without prompt             |
+| `--help`, `-h`              | Show help screen                            |
+| `--version`, `-v`           | Show current StructorCLI version            |
+| `--list`, `-l`, `list`      | View all available templates                |
+| `--quiet`, `-q`             | Suppress extra output like quotes           |
 
 ---
 
@@ -92,7 +93,7 @@ Will become:
 
 ---
 
-## 🛠 Supported Templates (Sample)
+## 🛠️ Supported Templates (Sample)
 
 - ✅ Python / Flask / FastAPI
 - ✅ Node.js / Express
@@ -111,7 +112,7 @@ Will become:
 ## 👨‍💻 Author
 
 Created by [**Brandon Austin**](https://github.com/BrandonAustin01)  
-Built with 🧠, refined with 💎, powered by [Rich](https://github.com/Textualize/rich)
+Built with 🦰, refined with 💎, powered by [Rich](https://github.com/Textualize/rich)
 
 ---
 
@@ -125,3 +126,4 @@ If you enjoy StructorCLI:
 Let’s keep scaffolding smart.
 
 ---
+
