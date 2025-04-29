@@ -14,13 +14,13 @@ from rich.columns import Columns
 from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn
 
 # Initialize Rich console
-console = Console(width=80)
+console = Console(width=120)
 
 # Path to the templates folder
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
 # Safe extensions for text injection
-TEXT_EXTENSIONS = {".md", ".txt", ".py", ".html", ".js", ".css"}
+TEXT_EXTENSIONS = {".md", ".txt", ".py", ".html", ".js", ".css", ".json"}
 
 SUCCESS_QUOTES = [
     "🎯 Project created! Now go conquer the world!",
@@ -34,6 +34,14 @@ SUCCESS_QUOTES = [
     "📦 All packed and ready. Time to build something amazing!",
     "💥 Creation successful. Innovation unlocked!"
 ]
+
+def animated_typing(text, delay=0.04, style="bold green"):
+    """Type text character-by-character with Rich styling."""
+    for char in text:
+        console.print(char, style=style, end="")
+        time.sleep(delay)
+    console.print()  # move to next line after typing
+
 
 def chunk_list(lst, n):
     """Split a list into chunks of size n, padding if needed."""
@@ -95,15 +103,18 @@ def get_project_info():
 
     console.print("\n💻 [bold]Select Project Type:[/bold]\n")
 
-    options = [format_option(i, name) for i, name in enumerate(template_choices, start=1)]
+    num_columns = 4
+    column_width = 30
 
-    option_rows = list(chunk_list(options, 4))
+    rows = (len(template_choices) + num_columns - 1) // num_columns
 
-    for row in option_rows:
-        # Widen the slots to 30 characters each
+    for row in range(rows):
         line = ""
-        for cell in row:
-            line += cell.ljust(30)  # 👈 wider breathing room
+        for col in range(num_columns):
+            idx = col * rows + row
+            if idx < len(template_choices):
+                name = template_choices[idx].capitalize()
+                line += f"{idx+1:2}. {name:<{column_width}}"
         console.print(line.rstrip())
 
     console.rule()
@@ -167,6 +178,7 @@ def scaffold_project(project_name, project_type):
                         console.print(f"[yellow]⚠️ Warning: Could not inject into {dst_file.name}: {e}[/yellow]")
 
                 progress.update(task, advance=1)
+                time.sleep(0.2)
 
         return project_path, created_files
 
@@ -212,7 +224,10 @@ def main():
             show_success(project_path, created_files)
 
             success_message = random.choice(SUCCESS_QUOTES)
-            console.print(f"\n[bold green]{success_message}[/bold green]\n")
+
+            console.print()
+            animated_typing(success_message)
+            console.print()
 
             break
 
@@ -227,3 +242,4 @@ def main():
             if choice.lower() != "y":
                 console.print("[bold red]👋 Exiting. Goodbye.[/bold red]")
                 sys.exit(0)
+
